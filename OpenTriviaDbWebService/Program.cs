@@ -24,6 +24,17 @@ try
     builder.Services.Configure<OpenTriviaDbOptions>(builder.Configuration.GetSection(OpenTriviaDbOptions.OptionKey));
     builder.Services.AddSingleton<OpenTriviaDbConnector>();
 
+    // Add CORS for Vue frontend
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+    });
+
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -36,6 +47,9 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    // Use CORS before other middleware
+    app.UseCors();
 
     app.MapControllers();
 

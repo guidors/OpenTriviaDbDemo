@@ -29,7 +29,8 @@ namespace OpenTriviaDbWebService.Tests
             _options = new OpenTriviaDbOptions
             {
                 ApiUrl = "https://opentdb.com/api.php",
-                SessionUrl = "https://opentdb.com/api_token.php"
+                SessionUrl = "https://opentdb.com/api_token.php",
+                CategoryUrl = "https://opentdb.com/api_category.php"
             };
             _mockOptions.Setup(x => x.Value).Returns(_options);
             _mockHttpHandler = new Mock<HttpMessageHandler>();
