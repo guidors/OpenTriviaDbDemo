@@ -4,6 +4,9 @@ namespace OpenTriviaDbWebService.Models
 {
     public record AnswerRequest
     {
+        [JsonPropertyName("token")]
+        public string Token { get; set; } = default!;
+
         [JsonPropertyName("question_id")]
         public int QuestionId { get; set; } = default!;
 

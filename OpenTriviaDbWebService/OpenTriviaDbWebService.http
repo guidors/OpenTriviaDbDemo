@@ -1,5 +1,6 @@
 @OpenTriviaDbWebService_HostAddress = http://localhost:5002
 
+# STEP 1: Get a new quiz and fresh token
 POST {{OpenTriviaDbWebService_HostAddress}}/OpenTriviaDbWebService/get_quiz/
 Accept: application/json
 Content-Type: application/json
@@ -13,4 +14,14 @@ Content-Type: application/json
 
 ###
 
-# Response
+# STEP 2: Use the token from the X-Session-Token response header above
+POST {{OpenTriviaDbWebService_HostAddress}}/OpenTriviaDbWebService/check_answers/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "token": "1d6cc503-571c-4b84-90ca-d197417c1b33", 
+  "question_id": 0,
+  "question": "%22Elementary%2C%20my%20dear%20Watson%22%20is%20a%20phrase%20that%20is%20never%20truly%20said%20within%20the%20Conan%20Doyle%20books%20of%20Sherlock%20Holmes.",
+  "answer": "False"
+}

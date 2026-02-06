@@ -1,16 +1,10 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using OpenTriviaDbWebService.Infrastructure;
 using OpenTriviaDbWebService.Models;
 using System.Collections.Concurrent;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace OpenTriviaDbWebService.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class OpenTriviaDbWebServiceController(ILogger<OpenTriviaDbWebServiceController> logger, OpenTriviaDbConnector openTriviaDbConnector) : ControllerBase
@@ -18,9 +12,6 @@ namespace OpenTriviaDbWebService.Controllers
         // Mapping of client tokens to opentdb.com quiz
         private static readonly ConcurrentDictionary<string, QuizScore> _tokens = [];
 
-        private const string SigningCredentials = "7E0B0424-4398-47A5-A6A2-9944556F4896";
-
-        [AllowAnonymous]
         [HttpPost("get_quiz")]
         public async Task<IActionResult> GetQuiz([FromBody] QuizRequest model)
         {
@@ -41,8 +32,7 @@ namespace OpenTriviaDbWebService.Controllers
                 }
 
                 // Generate a session token for the client and store results
-                var sessionToken = GenerateJwtToken(Guid.NewGuid().ToString());
-                Response.Headers["X-Session-Token"] = sessionToken;
+                var sessionToken = Guid.NewGuid().ToString();
                 _tokens[sessionToken] = new(result);
 
                 QuizResponse quizResponse = new(sessionToken, result);
@@ -56,26 +46,24 @@ namespace OpenTriviaDbWebService.Controllers
             }
         }
 
-        /*
-         *     GET /questions
-                POST /checkanswers
-        */
-
-        private static string GenerateJwtToken(string sessionId)
+        [HttpPost("check_answers")]
+        public async Task<IActionResult> CheckAnswers([FromBody] AnswerRequest request)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(SigningCredentials);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            if (request == null)
             {
-                Subject = new ClaimsIdentity(
-                    [new Claim("sessionId", sessionId)]),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
+                return BadRequest("Invalid answer request.");
+            }
 
-            var tokenId = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(tokenId);
+            // Check if the token is valid
+            if (!_tokens.TryGetValue(request.Token, out var quizScore))
+            {
+                return BadRequest("Invalid session token.");
+            }
+
+            // Get the answer response and update the score
+            var answerResponse = quizScore.GetAnswerResponseAndUpdateScore(request);
+
+            return Ok(answerResponse);
         }
     }
 }

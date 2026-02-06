@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using OpenTriviaDbWebService.Infrastructure;
 using OpenTriviaDbWebService.Options;
 using Serilog;
-using System.Text;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -17,22 +14,6 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddSerilog();
-
-    // Should come from vault when building release.
-    const string symmetricKey = "06F30BA2-CE84-4532-929E-0129B5532B65";
-
-    // JWT Configuration for session tokens. We don't need to validate users.
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(symmetricKey)),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-        });
 
     // Add services to the container.
 
@@ -53,8 +34,6 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
-    app.UseAuthorization();
 
     app.MapControllers();
 

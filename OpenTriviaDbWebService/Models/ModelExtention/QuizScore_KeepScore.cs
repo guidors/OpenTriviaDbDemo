@@ -27,8 +27,8 @@ namespace OpenTriviaDbWebService.Models
             var quizItem = _quiz.Results[answerRequest.QuestionId];
 
             // Just to be sure
-            Debug.Assert(QuestionResults[answerRequest.QuestionId]!.Question == quizItem.Question,
-                $"Questions are not equal. [{QuestionResults[answerRequest.QuestionId]!.Question}] != [{quizItem.Question}]");
+            Debug.Assert(_quiz.Results[answerRequest.QuestionId]!.Question == quizItem.Question,
+                $"Questions are not equal. [{_quiz.Results[answerRequest.QuestionId]!.Question}] != [{quizItem.Question}]");
 
             questionResult = GetQuestionResultAndCalculateNewScore(answerRequest, quizItem);
 
