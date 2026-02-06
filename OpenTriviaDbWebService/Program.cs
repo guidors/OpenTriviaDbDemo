@@ -39,7 +39,7 @@ try
     builder.Services.AddControllers();
 
     builder.Services.Configure<OpenTriviaDbOptions>(builder.Configuration.GetSection(OpenTriviaDbOptions.OptionKey));
-    builder.Services.AddHttpClient<OpenTriviaDbConnector>();
+    builder.Services.AddSingleton<OpenTriviaDbConnector>();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();

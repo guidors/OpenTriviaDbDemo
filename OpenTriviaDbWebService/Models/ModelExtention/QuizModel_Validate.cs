@@ -1,6 +1,6 @@
 ﻿namespace OpenTriviaDbWebService.Models
 {
-    public partial record QuizModel
+    public partial record QuizRequest
     {
         private static TriviaCategories? _categories;
         private static readonly HttpClient _httpClient = new();

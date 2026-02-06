@@ -1,6 +1,16 @@
 @OpenTriviaDbWebService_HostAddress = http://localhost:5002
 
-GET {{OpenTriviaDbWebService_HostAddress}}/weatherforecast/
+POST {{OpenTriviaDbWebService_HostAddress}}/OpenTriviaDbWebService/get_quiz/
 Accept: application/json
+Content-Type: application/json
+
+{
+  "numberOfQuestions": 5,
+  "category": 10,
+  "quizType": 2,
+  "difficulty": 1
+}
 
 ###
+
+# Response

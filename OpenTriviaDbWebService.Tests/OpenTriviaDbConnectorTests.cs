@@ -47,7 +47,7 @@ namespace OpenTriviaDbWebService.Tests
         [Fact]
         public async Task GetQuizAsync_GetQuizFromOpenTDbWithRetry()
         {
-            var quizModel = new QuizModel(5, 9, QuizType.multiple, QuizDifficulty.easy);
+            var quizModel = new QuizRequest(5, 9, QuizType.multiple, QuizDifficulty.easy);
             var connector = CreateConnector(false);
             var response = await connector.GetQuizAsync(quizModel);
 
@@ -96,7 +96,7 @@ namespace OpenTriviaDbWebService.Tests
         //public async Task GetQuizAsync_SuccessfulResponse_ReturnsQuizData()
         //{
         //    // Arrange
-        //    var quizModel = new QuizModel(5, 9, QuizType.multiple, QuizDifficulty.easy);
+        //    var quizModel = new QuizRequest(5, 9, QuizType.multiple, QuizDifficulty.easy);
         //    var tokenResponse = new OpenTriviaDbApiSessionRequest
         //    {
         //        ResponseCode = 0,
@@ -148,7 +148,7 @@ namespace OpenTriviaDbWebService.Tests
         //public async Task GetQuizAsync_NoResults_ThrowsException()
         //{
         //    // Arrange
-        //    var quizModel = new QuizModel(50, 9, QuizType.multiple, QuizDifficulty.easy);
+        //    var quizModel = new QuizRequest(50, 9, QuizType.multiple, QuizDifficulty.easy);
         //    var tokenResponse = new OpenTriviaDbApiSessionRequest
         //    {
         //        ResponseCode = 0,
@@ -184,7 +184,7 @@ namespace OpenTriviaDbWebService.Tests
         //public async Task GetQuizAsync_InvalidParameter_ThrowsException()
         //{
         //    // Arrange
-        //    var quizModel = new QuizModel(5, 9, QuizType.multiple, QuizDifficulty.easy);
+        //    var quizModel = new QuizRequest(5, 9, QuizType.multiple, QuizDifficulty.easy);
         //    var tokenResponse = new OpenTriviaDbApiSessionRequest
         //    {
         //        ResponseCode = 0,
@@ -225,7 +225,7 @@ namespace OpenTriviaDbWebService.Tests
         //public async Task GetQuizAsync_TokenNotFound_RequestsNewTokenAndRetries()
         //{
         //    // Arrange
-        //    var quizModel = new QuizModel(5, 9, QuizType.multiple, QuizDifficulty.easy);
+        //    var quizModel = new QuizRequest(5, 9, QuizType.multiple, QuizDifficulty.easy);
         //    var tokenResponse = new OpenTriviaDbApiSessionRequest
         //    {
         //        ResponseCode = 0,
@@ -299,7 +299,7 @@ namespace OpenTriviaDbWebService.Tests
         //public async Task GetQuizAsync_RateLimit_WaitsAndRetries()
         //{
         //    // Arrange
-        //    var quizModel = new QuizModel(5, 9, QuizType.multiple, QuizDifficulty.easy);
+        //    var quizModel = new QuizRequest(5, 9, QuizType.multiple, QuizDifficulty.easy);
         //    var tokenResponse = new OpenTriviaDbApiSessionRequest
         //    {
         //        ResponseCode = 0,
@@ -367,7 +367,7 @@ namespace OpenTriviaDbWebService.Tests
         //public async Task GetQuizAsync_UnexpectedResponseCode_ThrowsException()
         //{
         //    // Arrange
-        //    var quizModel = new QuizModel(5, 9, QuizType.multiple, QuizDifficulty.easy);
+        //    var quizModel = new QuizRequest(5, 9, QuizType.multiple, QuizDifficulty.easy);
         //    var tokenResponse = new OpenTriviaDbApiSessionRequest
         //    {
         //        ResponseCode = 0,
@@ -408,7 +408,7 @@ namespace OpenTriviaDbWebService.Tests
         //public async Task GetQuizAsync_HttpException_ReturnsEmptyResponse()
         //{
         //    // Arrange
-        //    var quizModel = new QuizModel(5, 9, QuizType.multiple, QuizDifficulty.easy);
+        //    var quizModel = new QuizRequest(5, 9, QuizType.multiple, QuizDifficulty.easy);
 
         //    _mockHttpHandler.Protected()
         //        .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())

@@ -15,7 +15,7 @@
         boolean
     }
 
-    public partial record QuizModel(
+    public partial record QuizRequest(
         int NumberOfQuestions,
         int Category,
         QuizType QuizType,

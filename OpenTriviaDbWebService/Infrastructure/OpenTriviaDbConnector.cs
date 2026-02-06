@@ -37,7 +37,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             _httpClient = new(httpMessageHandler);
         }
 
-        public async Task<OpenTriviaDbApiResponse> GetQuizAsync(QuizModel quizModel)
+        public async Task<OpenTriviaDbApiResponse> GetQuizAsync(QuizRequest quizModel)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             }
         }
 
-        private async Task<OpenTriviaDbApiResponse> GetQuizAsync(QuizModel quizModel, bool isRetry)
+        private async Task<OpenTriviaDbApiResponse> GetQuizAsync(QuizRequest quizModel, bool isRetry)
         {
             OpenTriviaDbApiResponse? response = await GetResponseFromBackendAsync(quizModel);
 
@@ -65,7 +65,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             return response;
         }
 
-        private async Task<OpenTriviaDbApiResponse?> GetResponseFromBackendAsync(QuizModel quizModel)
+        private async Task<OpenTriviaDbApiResponse?> GetResponseFromBackendAsync(QuizRequest quizModel)
         {
             OpenTriviaDbApiResponse? response = null;
 
@@ -92,7 +92,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             return response;
         }
 
-        private async Task<OpenTriviaDbApiResponse> ProcessResponseAsync(OpenTriviaDbApiResponse response, QuizModel quizModel, bool isRetry)
+        private async Task<OpenTriviaDbApiResponse> ProcessResponseAsync(OpenTriviaDbApiResponse response, QuizRequest quizModel, bool isRetry)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace OpenTriviaDbWebService.Infrastructure
                         break;
                     case 5:
                         await Task.Delay(5500); // Avoid the described rate limit
-                        response = await GetQuizAsync(quizModel, false);
+                        response = await GetQuizAsync(quizModel, true);
                         break;
                     default:
                         throw new OpenTriviaDbConnectorException($"Unexpected response code {response.ResponseCode} from the Open Trivia Database API.");
@@ -147,7 +147,8 @@ namespace OpenTriviaDbWebService.Infrastructure
                     return;
                 }
 
-                string command = (resetToken && (_token != null)) ? $"reset&token={_token}" : "request";
+                //string command = (resetToken && (_token != null)) ? $"reset&token={_token}" : "request";
+                string command = "request";
 
                 using var httpResponse = await _httpClient.GetAsync($"{options.Value.SessionUrl}?command={command}");
 
