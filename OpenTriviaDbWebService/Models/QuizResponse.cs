@@ -8,8 +8,7 @@ namespace OpenTriviaDbWebService.Models
         public QuizResponse(string token, OpenTriviaDbApiResponse openTriviaDbApiResponse)
         {
             Token = token;
-            QuizItems = openTriviaDbApiResponse.Results
-                .Select(x => { return new QuizItem(x); }).ToList();
+            QuizItems = [.. openTriviaDbApiResponse.Results.Select(x => { return new QuizItem(x); })];
         }
 
         [JsonPropertyName("token")]

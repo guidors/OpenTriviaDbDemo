@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Options;
 using OpenTriviaDbWebService.Infrastructure;
+using OpenTriviaDbWebService.Models;
 using OpenTriviaDbWebService.Options;
 using Serilog;
 
@@ -36,6 +38,10 @@ try
     }
 
     app.MapControllers();
+
+    // Initialize QuizRequest with categoryUrl from options
+    var openTriviaDbOptions = app.Services.GetRequiredService<IOptions<OpenTriviaDbOptions>>().Value;
+    QuizRequest.Init(openTriviaDbOptions.CategoryUrl);
 
     await app.RunAsync();
 }

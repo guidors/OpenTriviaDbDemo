@@ -1,12 +1,20 @@
 ﻿namespace OpenTriviaDbWebService.Models
 {
+
     public partial record QuizRequest
     {
+        private static string _categoriesUrl = string.Empty;
+
         private static TriviaCategories? _categories;
         private static readonly HttpClient _httpClient = new();
 
         private const int MinQuestions = 1;
         private const int MaxQuestions = 20;
+
+        public static void Init(string categoriesUrl)
+        {
+            _categoriesUrl = categoriesUrl;
+        }
 
         public async Task ValidateAsync()
         {
@@ -27,7 +35,7 @@
             try
             {
                 // Improvement would be to 
-                var categories = await _httpClient.GetFromJsonAsync<TriviaCategories>("https://opentdb.com/api_category.php");
+                var categories = await _httpClient.GetFromJsonAsync<TriviaCategories>(_categoriesUrl);
                 return categories;
             }
             catch (Exception ex)

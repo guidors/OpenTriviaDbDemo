@@ -57,7 +57,7 @@ namespace OpenTriviaDbWebService.Models
     }
 
     [Serializable]
-    internal class QuizScoreException : Exception
+    public class QuizScoreException : Exception
     {
         public QuizScoreException()
         {
