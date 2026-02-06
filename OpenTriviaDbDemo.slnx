@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="OpenTriviaDbWebService.Tests/OpenTriviaDbWebService.Tests.csproj" Id="c4e4c3b2-956d-4e96-a41e-e07f53e330c2" />
+  <Project Path="OpenTriviaDbWebService/OpenTriviaDbWebService.csproj" />
+</Solution>

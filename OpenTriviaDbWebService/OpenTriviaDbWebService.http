@@ -1,0 +1,6 @@
+@OpenTriviaDbWebService_HostAddress = http://localhost:5002
+
+GET {{OpenTriviaDbWebService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
