@@ -43,7 +43,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             {
                 // let's ensure that only one request is made to the API at a time, to avoid hitting the rate limit.
                 await _semaphore.WaitAsync();
-                return await GetQuizAsync(quizModel, false);
+                return await GetQuizAsync(quizModel, false, 0);
             }
             finally
             {
@@ -51,7 +51,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             }
         }
 
-        private async Task<OpenTriviaDbApiResponse> GetQuizAsync(QuizRequest quizModel, bool isRetry)
+        private async Task<OpenTriviaDbApiResponse> GetQuizAsync(QuizRequest quizModel, bool isRetry, int recursiveCounter)
         {
             OpenTriviaDbApiResponse? response = await GetResponseFromBackendAsync(quizModel);
 
@@ -60,7 +60,7 @@ namespace OpenTriviaDbWebService.Infrastructure
                 return ErrorResult;
             }
 
-            response = await ProcessResponseAsync(response!, quizModel, isRetry);
+            response = await ProcessResponseAsync(response!, quizModel, isRetry, recursiveCounter);
 
             return response;
         }
@@ -92,13 +92,19 @@ namespace OpenTriviaDbWebService.Infrastructure
             return response;
         }
 
-        private async Task<OpenTriviaDbApiResponse> ProcessResponseAsync(OpenTriviaDbApiResponse response, QuizRequest quizModel, bool isRetry)
+        private async Task<OpenTriviaDbApiResponse> ProcessResponseAsync(OpenTriviaDbApiResponse response, QuizRequest quizModel, bool isRetry, int recursiveCounter)
         {
             try
             {
+                if (recursiveCounter == 3 && // Allow a request for a new token and a timeout
+                    !(response.ResponseCode == 0 && response.Results.Count > 0)) // Pass when we have a good result
+                {
+                    throw new OpenTriviaDbConnectorException("Too many recursive tries to get a result.");
+                }
+
                 switch (response.ResponseCode)
                 {
-                    case 0:
+                    case 0: // Success
                         if (response.Results.Count == 0)
                         {
                             if (isRetry)
@@ -106,22 +112,22 @@ namespace OpenTriviaDbWebService.Infrastructure
                                 throw new OpenTriviaDbConnectorException("Received empty results from Open Trivia Database API after retrying.");
                             }
                             await Task.Delay(5500); // Avoid the described rate limit
-                            response = await GetQuizAsync(quizModel, true);
+                            response = await GetQuizAsync(quizModel, true, ++recursiveCounter);
                         }
                         logger.LogInformation("Open Trivia Database API: Successfully retrieved quiz.");
                         break;
-                    case 1:
+                    case 1: // No Results
                         throw new OpenTriviaDbConnectorException($"No results could be returned from the Open Trivia Database API for the given query.");
-                    case 2:
+                    case 2: // Invalid Parameter
                         throw new OpenTriviaDbConnectorException("Invalid parameter(s) provided to the Open Trivia Database API.");
-                    case 3:
-                    case 4:
+                    case 3: // Token Not Found 
+                    case 4: // Token Empty
                         await RequestTokenAsync(true);
-                        response = await GetQuizAsync(quizModel, false);
+                        response = await GetQuizAsync(quizModel, false, ++recursiveCounter);
                         break;
-                    case 5:
+                    case 5: // Rate Limit
                         await Task.Delay(5500); // Avoid the described rate limit
-                        response = await GetQuizAsync(quizModel, true);
+                        response = await GetQuizAsync(quizModel, true, ++recursiveCounter);
                         break;
                     default:
                         throw new OpenTriviaDbConnectorException($"Unexpected response code {response.ResponseCode} from the Open Trivia Database API.");
@@ -147,8 +153,7 @@ namespace OpenTriviaDbWebService.Infrastructure
                     return;
                 }
 
-                //string command = (resetToken && (_token != null)) ? $"reset&token={_token}" : "request";
-                string command = "request";
+                string command = (resetToken && (_token != null)) ? $"reset&token={_token}" : "request";
 
                 using var httpResponse = await _httpClient.GetAsync($"{options.Value.SessionUrl}?command={command}");
 
