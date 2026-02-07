@@ -28,7 +28,7 @@ namespace OpenTriviaDbWebService.Controllers
 
                 if (result == null || result.ResponseCode != 0 || result.Results == null || result.Results.Count == 0)
                 {
-                    return BadRequest("Failed to retrieve quiz.");
+                    return BadRequest($"It was not possible to retrieve {model.NumberOfQuestions} for given options. Please retry with different options or reduce number of questions.");
                 }
 
                 // Generate a session token for the client and store results

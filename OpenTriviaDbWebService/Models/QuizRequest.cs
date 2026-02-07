@@ -23,7 +23,16 @@
     {
         public override string ToString()
         {
-            return $"amount={NumberOfQuestions}&category={Category}&difficulty={Difficulty}&type={QuizType}";
+            string apiString = $"amount={NumberOfQuestions}";
+
+            if (Category != 0)
+                apiString += $"&category={Category}";
+            if (Difficulty != QuizDifficulty.any)
+                apiString += $"&difficulty={Difficulty}";
+            if (QuizType != QuizType.any)
+                apiString += $"&type={QuizType}";
+
+            return apiString;
         }
     }
 }

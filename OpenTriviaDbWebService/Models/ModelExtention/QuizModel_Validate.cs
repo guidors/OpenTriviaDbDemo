@@ -26,7 +26,7 @@ namespace OpenTriviaDbWebService.Models
             if (_categories == null)
                 throw new QuizRequestException("Categories have not been loaded.");
 
-            if (!_categories.Categories.Exists(c => c.Id == Category))
+            if (Category != 0 && !_categories.Categories.Exists(c => c.Id == Category))
                 throw new QuizRequestException($"Category {Category} does not exist.");
         }
 
