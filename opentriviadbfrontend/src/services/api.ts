@@ -21,7 +21,7 @@ class ApiService {
   }
 
   async getCategories(): Promise<CategoryResponse> {
-    return this.request<CategoryResponse>('https://opentdb.com/api_category.php');
+    return this.request<CategoryResponse>(`${BASE_URL}/OpenTriviaDbWebService/get_categories`);
   }
 
   async getQuiz(config: QuizRequest): Promise<QuizResponse> {

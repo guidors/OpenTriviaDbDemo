@@ -6,11 +6,11 @@
       <div v-if="quizStore.score" class="mb-8">
         <!-- Score display -->
         <div class="text-6xl font-bold text-blue-600 mb-4">
-          {{ Math.round(quizStore.score.score) }}%
+          {{ Math.round((quizStore.score.total_correct / quizStore.score.total) * 100) }}%
         </div>
         
         <div class="text-xl text-gray-700 mb-6">
-          You got {{ quizStore.score.correctAnswers }} out of {{ quizStore.score.totalQuestions }} questions correct
+          You got {{ quizStore.score.total_correct }} out of {{ quizStore.score.total }} questions correct
         </div>
         
         <!-- Score bar -->
@@ -18,7 +18,7 @@
           <div 
             class="h-4 rounded-full transition-all duration-500"
             :class="getScoreBarColor()"
-            :style="{ width: `${quizStore.score.score}%` }"
+            :style="{ width: `${(quizStore.score.total_correct / quizStore.score.total) * 100}%` }"
           ></div>
         </div>
         
@@ -81,7 +81,7 @@ const quizStore = useQuizStore();
 const getScoreBarColor = () => {
   if (!quizStore.score) return 'bg-gray-400';
   
-  const score = quizStore.score.score;
+  const score = (quizStore.score.total_correct / quizStore.score.total) * 100;
   if (score >= 80) return 'bg-green-500';
   if (score >= 60) return 'bg-yellow-500';
   return 'bg-red-500';
@@ -90,7 +90,7 @@ const getScoreBarColor = () => {
 const getScoreMessageColor = () => {
   if (!quizStore.score) return 'text-gray-600';
   
-  const score = quizStore.score.score;
+  const score = (quizStore.score.total_correct / quizStore.score.total) * 100;
   if (score >= 80) return 'text-green-600';
   if (score >= 60) return 'text-yellow-600';
   return 'text-red-600';
@@ -99,7 +99,7 @@ const getScoreMessageColor = () => {
 const getScoreMessage = () => {
   if (!quizStore.score) return '';
   
-  const score = quizStore.score.score;
+  const score = (quizStore.score.total_correct / quizStore.score.total) * 100;
   if (score === 100) return 'Perfect! Outstanding performance! 🎉';
   if (score >= 90) return 'Excellent work! 🌟';
   if (score >= 80) return 'Great job! 👏';

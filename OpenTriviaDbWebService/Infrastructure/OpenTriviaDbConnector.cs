@@ -26,7 +26,8 @@ namespace OpenTriviaDbWebService.Infrastructure
         internal string? _token;
         private static HttpClient _httpClient = new();
         private readonly OpenTriviaDbApiResponse ErrorResult = new() { ResponseCode = 6, Results = [] };
-        private static readonly SemaphoreSlim _semaphore = new(1, 1);
+        private readonly SemaphoreSlim _semaphore = new(1, 1);
+        private TriviaCategories? _triviaCategories = null;
 
         /// <summary>
         /// For unit testing purposes
@@ -73,7 +74,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             {
                 await RequestTokenAsync();
 
-                using var httpResponse = await _httpClient.GetAsync($"{options.Value.ApiUrl}?{quizModel}&encode=url3986&token={_token}");
+                using var httpResponse = await _httpClient.GetAsync($"{options.Value.ApiUrl}?{quizModel}&token={_token}");
 
                 if (!httpResponse.IsSuccessStatusCode)
                 {
@@ -192,6 +193,33 @@ namespace OpenTriviaDbWebService.Infrastructure
             {
                 logger.LogError(ex, "An error occurred while requesting a token from the Open Trivia Database API.");
                 throw new OpenTriviaDbConnectorException("Failed to request token from Open Trivia Database API.", ex);
+            }
+        }
+
+        public async Task<TriviaCategories?> GetCategoriesAsync()
+        {
+            try
+            {
+                if (_triviaCategories != null)
+                    return _triviaCategories;
+
+                using var httpResponse = await _httpClient.GetAsync(options.Value.CategoryUrl);
+
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    logger.LogWarning("Open Trivia Database Categories API returned HTTP {StatusCode}: {ReasonPhrase}",
+                        httpResponse.StatusCode, httpResponse.ReasonPhrase);
+                    return null;
+                }
+
+                _triviaCategories = await httpResponse.Content.ReadFromJsonAsync<TriviaCategories>();
+                logger.LogInformation("Open Trivia Database Categories API: Successfully retrieved {Count} categories.", _triviaCategories?.Categories?.Count ?? 0);
+                return _triviaCategories;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while getting categories from the Open Trivia Database API.");
+                return null;
             }
         }
     }

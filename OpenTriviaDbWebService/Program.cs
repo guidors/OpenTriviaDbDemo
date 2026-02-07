@@ -3,6 +3,8 @@ using OpenTriviaDbWebService.Infrastructure;
 using OpenTriviaDbWebService.Models;
 using OpenTriviaDbWebService.Options;
 using Serilog;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -19,7 +21,12 @@ try
 
     // Add services to the container.
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+        });
 
     builder.Services.Configure<OpenTriviaDbOptions>(builder.Configuration.GetSection(OpenTriviaDbOptions.OptionKey));
     builder.Services.AddSingleton<OpenTriviaDbConnector>();
@@ -54,8 +61,8 @@ try
     app.MapControllers();
 
     // Initialize QuizRequest with categoryUrl from options
-    var openTriviaDbOptions = app.Services.GetRequiredService<IOptions<OpenTriviaDbOptions>>().Value;
-    QuizRequest.Init(openTriviaDbOptions.CategoryUrl);
+    var openTriviaDbConnector = app.Services.GetRequiredService<OpenTriviaDbConnector>();
+    QuizRequest.Init(openTriviaDbConnector.GetCategoriesAsync);
 
     await app.RunAsync();
 }

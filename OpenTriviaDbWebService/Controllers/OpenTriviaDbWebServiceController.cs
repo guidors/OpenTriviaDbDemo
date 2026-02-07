@@ -65,5 +65,31 @@ namespace OpenTriviaDbWebService.Controllers
 
             return Ok(answerResponse);
         }
+
+        /// <summary>
+        /// Get categories from OpenTriviaDb. The connector caches result. Also avoiding CORS issues
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get_categories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            try
+            {
+                var categories = await openTriviaDbConnector.GetCategoriesAsync();
+
+                if (categories == null)
+                {
+                    return StatusCode(500, "Failed to retrieve categories from Open Trivia Database API.");
+                }
+
+                logger.LogInformation("Categories retrieved from API.");
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error getting categories.");
+                return StatusCode(500, $"{ex.Message}");
+            }
+        }
     }
 }

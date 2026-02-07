@@ -26,9 +26,9 @@ export interface AnswerRequest {
 }
 
 export interface QuizScore {
-  totalQuestions: number;
-  correctAnswers: number;
-  score: number;
+  total: number;
+  total_correct: number;
+  total_incorrect: number;
 }
 
 export interface AnswerResponse {
@@ -47,4 +47,18 @@ export interface Category {
 
 export interface CategoryResponse {
   trivia_categories: Category[];
+}
+
+// Helper enums for better developer experience
+export enum QuizDifficulty {
+  Any = 'any',
+  Easy = 'easy',
+  Medium = 'medium',
+  Hard = 'hard'
+}
+
+export enum QuizType {
+  Any = 'any',
+  Multiple = 'multiple',
+  Boolean = 'boolean'
 }

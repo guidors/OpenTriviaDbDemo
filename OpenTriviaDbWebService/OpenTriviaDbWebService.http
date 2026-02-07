@@ -1,5 +1,11 @@
 @OpenTriviaDbWebService_HostAddress = http://localhost:5002
 
+# GET categories: Get all available trivia categories with caching
+GET {{OpenTriviaDbWebService_HostAddress}}/OpenTriviaDbWebService/get_categories/
+Accept: application/json
+
+###
+
 # STEP 1: Get a new quiz and fresh token
 POST {{OpenTriviaDbWebService_HostAddress}}/OpenTriviaDbWebService/get_quiz/
 Accept: application/json

@@ -2,18 +2,40 @@
 </script>
 
 <template>
-  <div id="app" class="min-h-screen bg-gray-50">
+  <div id="app">
     <header class="bg-blue-600 text-white p-4">
       <h1 class="text-2xl font-bold text-center">Open Trivia Quiz</h1>
     </header>
     
-    <main class="container mx-auto px-4 py-8 max-w-4xl">
-      <RouterView />
+    <main class="px-4 py-8">
+      <div class="mx-auto max-w-4xl">
+        <RouterView />
+      </div>
     </main>
   </div>
 </template>
 
 <style>
+/* Force vertical layout */
+#app {
+  display: block !important;
+  width: 100% !important;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+#app header {
+  display: block !important;
+  width: 100% !important;
+}
+
+#app main {
+  display: block !important;
+  width: 100% !important;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 /* Global styles */
 body {
   margin: 0;
