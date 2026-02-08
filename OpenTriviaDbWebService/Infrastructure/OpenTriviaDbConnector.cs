@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using OpenTriviaDbWebService.Extentions;
 using OpenTriviaDbWebService.Models;
 using OpenTriviaDbWebService.Options;
 
@@ -78,8 +79,7 @@ namespace OpenTriviaDbWebService.Infrastructure
 
                 if (!httpResponse.IsSuccessStatusCode)
                 {
-                    logger.LogWarning("Open Trivia Database API returned HTTP {StatusCode}: {ReasonPhrase}",
-                        httpResponse.StatusCode, httpResponse.ReasonPhrase);
+                    logger.WarningApiHttp((int)httpResponse.StatusCode, httpResponse.ReasonPhrase);
                 }
 
                 // Ook voor HttpStatusCode.TooManyRequests en HttpStatusCode.BadRequest wordt er een json terug gegeven.
@@ -88,7 +88,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             }
             catch (Exception e)
             {
-                logger.LogError(e, "Unexpected error occurred: {Message}", e.Message);
+                logger.ErrorUnexpected(e, e.Message);
             }
             return response;
         }
@@ -115,7 +115,7 @@ namespace OpenTriviaDbWebService.Infrastructure
                             await Task.Delay(5500); // Avoid the described rate limit
                             response = await GetQuizAsync(quizModel, true, ++recursiveCounter);
                         }
-                        logger.LogInformation("Open Trivia Database API: Successfully retrieved quiz.");
+                        logger.InformationQuizRetrievedSuccessfully();
                         break;
                     case 1: // No Results
                         throw new OpenTriviaDbConnectorException($"No results could be returned from the Open Trivia Database API for the given query.");
@@ -137,7 +137,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while getting a quiz from the Open Trivia Database API.");
+                logger.ErrorGettingQuizFromApi(ex);
             }
             return ErrorResult;
         }
@@ -150,7 +150,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             {
                 if (_token != null && !resetToken)
                 {
-                    logger.LogInformation("Using existing token for Open Trivia Database API: {Token}", _token);
+                    logger.InformationUsingExistingToken(_token);
                     return;
                 }
 
@@ -160,8 +160,7 @@ namespace OpenTriviaDbWebService.Infrastructure
 
                 if (!httpResponse.IsSuccessStatusCode)
                 {
-                    logger.LogWarning("Open Trivia Database API Session Request returned HTTP {StatusCode}: {ReasonPhrase}",
-                        httpResponse.StatusCode, httpResponse.ReasonPhrase);
+                    logger.WarningSessionRequestHttp((int)httpResponse.StatusCode, httpResponse.ReasonPhrase);
                 }
 
                 response = await httpResponse.Content.ReadFromJsonAsync<OpenTriviaDbApiSessionRequest>()
@@ -171,7 +170,7 @@ namespace OpenTriviaDbWebService.Infrastructure
                 {
                     case 0:
                         _token = response.Token;
-                        logger.LogInformation("Open Trivia Database API: {ResponseMessage}", response.ResponseMessage);
+                        logger.InformationApiResponseMessage(response.ResponseMessage);
                         return;
                     case 4:
                         await RequestTokenAsync(true);
@@ -191,7 +190,7 @@ namespace OpenTriviaDbWebService.Infrastructure
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while requesting a token from the Open Trivia Database API.");
+                logger.ErrorRequestingToken(ex);
                 throw new OpenTriviaDbConnectorException("Failed to request token from Open Trivia Database API.", ex);
             }
         }
@@ -207,18 +206,17 @@ namespace OpenTriviaDbWebService.Infrastructure
 
                 if (!httpResponse.IsSuccessStatusCode)
                 {
-                    logger.LogWarning("Open Trivia Database Categories API returned HTTP {StatusCode}: {ReasonPhrase}",
-                        httpResponse.StatusCode, httpResponse.ReasonPhrase);
+                    logger.WarningCategoriesApiHttp((int)httpResponse.StatusCode, httpResponse.ReasonPhrase);
                     return null;
                 }
 
                 _triviaCategories = await httpResponse.Content.ReadFromJsonAsync<TriviaCategories>();
-                logger.LogInformation("Open Trivia Database Categories API: Successfully retrieved {Count} categories.", _triviaCategories?.Categories?.Count ?? 0);
+                logger.InformationCategoriesRetrievedSuccessfully(_triviaCategories?.Categories?.Count ?? 0);
                 return _triviaCategories;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while getting categories from the Open Trivia Database API.");
+                logger.ErrorGettingCategoriesFromApi(ex);
                 return null;
             }
         }

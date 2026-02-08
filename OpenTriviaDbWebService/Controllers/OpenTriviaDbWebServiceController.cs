@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OpenTriviaDbWebService.Extentions;
 using OpenTriviaDbWebService.Infrastructure;
 using OpenTriviaDbWebService.Models;
 using System.Collections.Concurrent;
@@ -41,7 +42,7 @@ namespace OpenTriviaDbWebService.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error getting quiz.");
+                logger.ErrorGettingQuiz(ex);
                 return StatusCode(500, $"{ex.Message}");
             }
         }
@@ -82,12 +83,12 @@ namespace OpenTriviaDbWebService.Controllers
                     return StatusCode(500, "Failed to retrieve categories from Open Trivia Database API.");
                 }
 
-                logger.LogInformation("Categories retrieved from API.");
+                logger.InformationCategoriesRetrieved();
                 return Ok(categories);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error getting categories.");
+                logger.ErrorGettingCategories(ex);
                 return StatusCode(500, $"{ex.Message}");
             }
         }
