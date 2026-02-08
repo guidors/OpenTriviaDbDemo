@@ -185,6 +185,7 @@ h1, h2, h3, h4, h5, h6 {
 .bg-white { background-color: #fffef7; }
 .bg-gray-50 { background-color: #fef7ed; }
 .bg-gray-100 { background-color: #fed7aa; }
+.bg-blue-50 { background-color: #eff6ff; }
 .bg-green-100 { background-color: #dcfce7; }
 .bg-red-100 { background-color: #fee2e2; }
 

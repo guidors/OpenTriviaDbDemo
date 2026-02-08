@@ -35,7 +35,7 @@
           <div 
             v-for="(question, index) in quizStore.questions" 
             :key="index"
-            class="flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+            class="flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-blue-50"
             @click="reviewQuestion(index)"
           >
             <span class="text-left flex-1 text-lg" v-html="question.question"></span>
@@ -88,7 +88,7 @@ const getScoreBarColor = () => {
 };
 
 const getScoreMessageColor = () => {
-  if (!quizStore.score) return 'text-gray-600';
+  if (!quizStore.score) return 'text-gray-800';
   
   const score = (quizStore.score.total_correct / quizStore.score.total) * 100;
   if (score >= 80) return 'text-green-600';
