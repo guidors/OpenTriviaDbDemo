@@ -9,7 +9,7 @@
           {{ Math.round((quizStore.score.total_correct / quizStore.score.total) * 100) }}%
         </div>
         
-        <div class="text-xl text-gray-700 mb-6">
+        <div class="text-2xl text-gray-800 mb-6">
           You got {{ quizStore.score.total_correct }} out of {{ quizStore.score.total }} questions correct
         </div>
         
@@ -23,14 +23,14 @@
         </div>
         
         <!-- Score message -->
-        <div class="text-lg font-medium mb-6" :class="getScoreMessageColor()">
+        <div class="text-xl font-medium mb-6" :class="getScoreMessageColor()">
           {{ getScoreMessage() }}
         </div>
       </div>
 
       <!-- Question review -->
       <div class="mb-8">
-        <h3 class="text-xl font-semibold mb-4">Review Your Answers</h3>
+        <h3 class="text-2xl font-semibold mb-4">Review Your Answers</h3>
         <div class="space-y-3">
           <div 
             v-for="(question, index) in quizStore.questions" 
@@ -38,7 +38,7 @@
             class="flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
             @click="reviewQuestion(index)"
           >
-            <span class="text-left flex-1" v-html="question.question"></span>
+            <span class="text-left flex-1 text-lg" v-html="question.question"></span>
             <div class="flex items-center gap-2">
               <span 
                 class="w-6 h-6 rounded-full flex items-center justify-center text-white text-sm font-bold"

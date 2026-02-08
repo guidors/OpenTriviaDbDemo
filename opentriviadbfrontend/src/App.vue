@@ -199,10 +199,13 @@ h1, h2, h3, h4, h5, h6 {
 .text-lg { font-size: 1.125rem; }
 .text-xl { font-size: 1.25rem; }
 .text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-6xl { font-size: 3.75rem; }
 
 /* Font weights */
 .font-medium { font-weight: 500; }
 .font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
 
 .border { border: 1px solid #e5e7eb; }
 .border-green-300 { border-color: #86efac; }
