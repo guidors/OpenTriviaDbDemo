@@ -4,7 +4,7 @@
 <template>
   <div id="app">
     <header class="bg-blue-600 text-white p-4">
-      <h1 class="text-2xl font-bold text-center">Open Trivia Quiz</h1>
+      
     </header>
     
     <main class="px-4 py-8">
@@ -21,7 +21,7 @@
   display: block !important;
   width: 100% !important;
   min-height: 100vh;
-  background-color: #f9fafb;
+  background-color: #fef7ed;
 }
 
 #app header {
@@ -51,6 +51,11 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #1f2937;
+  font-weight: 600;
 }
 
 /* Basic button styles */
@@ -115,7 +120,7 @@ body {
   display: block;
   margin-bottom: 0.25rem;
   font-weight: 500;
-  color: #374151;
+  color: #1f2937;
 }
 
 .form-input, .form-select {
@@ -135,10 +140,11 @@ body {
 
 /* Card styles */
 .card {
-  background: white;
+  background: #fffef7;
   border-radius: 0.5rem;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #fbbf24;
 }
 
 /* Utility classes */
@@ -176,16 +182,27 @@ body {
 .max-w-md { max-width: 28rem; }
 .max-w-2xl { max-width: 42rem; }
 
-.bg-white { background-color: white; }
-.bg-gray-50 { background-color: #f9fafb; }
-.bg-gray-100 { background-color: #f3f4f6; }
+.bg-white { background-color: #fffef7; }
+.bg-gray-50 { background-color: #fef7ed; }
+.bg-gray-100 { background-color: #fed7aa; }
 .bg-green-100 { background-color: #dcfce7; }
 .bg-red-100 { background-color: #fee2e2; }
 
 .text-green-800 { color: #166534; }
 .text-red-800 { color: #991b1b; }
-.text-gray-600 { color: #4b5563; }
-.text-gray-800 { color: #1f2937; }
+.text-gray-600 { color: #1f2937; }
+.text-gray-800 { color: #111827; }
+
+/* Font sizes */
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+
+/* Font weights */
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
 
 .border { border: 1px solid #e5e7eb; }
 .border-green-300 { border-color: #86efac; }

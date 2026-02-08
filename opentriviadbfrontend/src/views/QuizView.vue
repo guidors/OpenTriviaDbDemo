@@ -29,7 +29,7 @@
         </div>
 
         <!-- Question -->
-        <h3 class="text-xl font-semibold mb-4" v-html="currentQuestion.question"></h3>
+        <h3 class="text-2xl font-semibold mb-4">{{ currentQuestion.question }}</h3>
 
         <!-- Answer feedback (if answered) -->
         <div v-if="currentAnswer" class="mb-4 p-4 rounded" 
@@ -49,7 +49,7 @@
             :key="index"
             @click="selectAnswer(answer)"
             :disabled="isAnswered || quizStore.isLoading"
-            class="w-full p-4 text-left border rounded-lg transition-all"
+            class="w-full p-4 text-left border rounded-lg transition-all text-lg"
             :class="getAnswerButtonClass(answer)"
             v-html="answer"
           />
