@@ -85,6 +85,8 @@ namespace OpenTriviaDbWebService.Infrastructure
                 // Ook voor HttpStatusCode.TooManyRequests en HttpStatusCode.BadRequest wordt er een json terug gegeven.
                 response = await httpResponse.Content.ReadFromJsonAsync<OpenTriviaDbApiResponse>()
                     ?? throw new OpenTriviaDbConnectorException("Failed to retrieve quiz from Open Trivia Database API: HTTP {httpResponse.StatusCode}: {httpResponse.ReasonPhrase}");
+
+                response.RemoveWebCoding();
             }
             catch (Exception e)
             {

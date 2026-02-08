@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace OpenTriviaDbWebService.Models
 {
-    public record OpenTriviaDbApiResponse
+    public partial record OpenTriviaDbApiResponse
     {
         [JsonPropertyName("response_code")]
         public int ResponseCode { get; set; }
@@ -21,13 +21,13 @@ namespace OpenTriviaDbWebService.Models
         public required string Difficulty { get; init; }
 
         [JsonPropertyName("category")]
-        public required string Category { get; init; }
+        public required string Category { get; set; }
 
         [JsonPropertyName("question")]
-        public required string Question { get; init; }
+        public required string Question { get; set; }
 
         [JsonPropertyName("correct_answer")]
-        public required string CorrectAnswer { get; init; }
+        public required string CorrectAnswer { get; set; }
 
         [JsonPropertyName("incorrect_answers")]
         public required List<string> IncorrectAnswers { get; init; }

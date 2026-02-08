@@ -38,7 +38,7 @@
             {{ currentAnswer.isCorrect ? '✓ Correct!' : '✗ Incorrect' }}
           </p>
           <p v-if="!currentAnswer.isCorrect" class="text-sm mt-1 text-gray-700">
-            Correct answer: <span class="font-medium" v-html="currentAnswer.correctAnswer"></span>
+            Correct answer: <span class="font-medium">{{ currentAnswer.correctAnswer }}</span>
           </p>
         </div>
 
@@ -51,8 +51,9 @@
             :disabled="isAnswered || quizStore.isLoading"
             class="w-full p-4 text-left border rounded-lg transition-all text-lg"
             :class="getAnswerButtonClass(answer)"
-            v-html="answer"
-          />
+          >
+            {{ answer }}
+          </button>
         </div>
       </div>
 
