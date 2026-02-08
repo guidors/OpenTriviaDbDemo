@@ -14,7 +14,7 @@
         </div>
         
         <!-- Score bar -->
-        <div class="w-full bg-gray-200 rounded-full h-4 mb-6">
+        <div class="w-full bg-gray-800 rounded-full h-4 mb-6">
           <div 
             class="h-4 rounded-full transition-all duration-500"
             :class="getScoreBarColor()"

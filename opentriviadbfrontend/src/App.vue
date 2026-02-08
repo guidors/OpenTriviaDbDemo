@@ -185,14 +185,23 @@ h1, h2, h3, h4, h5, h6 {
 .bg-white { background-color: #fffef7; }
 .bg-gray-50 { background-color: #fef7ed; }
 .bg-gray-100 { background-color: #fed7aa; }
+.bg-gray-200 { background-color: #e5e7eb; }
+.bg-gray-800 { background-color: #1f2937; }
 .bg-blue-50 { background-color: #eff6ff; }
 .bg-green-100 { background-color: #dcfce7; }
+.bg-green-500 { background-color: #10b981; }
+.bg-yellow-500 { background-color: #f59e0b; }
 .bg-red-100 { background-color: #fee2e2; }
+.bg-red-500 { background-color: #ef4444; }
 
 .text-green-800 { color: #166534; }
 .text-red-800 { color: #991b1b; }
 .text-gray-600 { color: #1f2937; }
 .text-gray-800 { color: #111827; }
+.text-blue-600 { color: #2563eb; }
+.text-green-600 { color: #059669; }
+.text-yellow-600 { color: #d97706; }
+.text-red-600 { color: #dc2626; }
 
 /* Font sizes */
 .text-sm { font-size: 0.875rem; }
@@ -214,6 +223,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .rounded { border-radius: 0.25rem; }
 .rounded-lg { border-radius: 0.5rem; }
+.rounded-full { border-radius: 9999px; }
 
 .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
 
