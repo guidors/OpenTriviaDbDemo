@@ -1,6 +1,5 @@
 ﻿namespace OpenTriviaDbWebService.Options
-{
-    public class OpenTriviaDbOptions
+{    public class OpenTriviaDbOptions
     {
         internal const string OptionKey = "OpenTriviaDb";
 
