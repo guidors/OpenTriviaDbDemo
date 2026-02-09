@@ -28,3 +28,7 @@ In project OpenTriviaDbWebService voer uit: `dotnet publish -c Release`
 
 Draaiende demo: https://www.xilongo.eu/quiz/
 
+## Bekende bugs / features
+- Bij het eerste keer laden van de applicatie verschijnt niet altijd meteen de Vue frontend. Een refresh verhelpt dat.
+- Backend token voor opentdb.com is niet gerelateerd aan een frontend gebruikerssessie. Dit zou functioneel beter zijn, nu is de kans op herhaling van vragen groter.
+- Bij veel gebruikers zal de wachttijd langer zijn, er is een timeout van 5 seconden voor het ophalen van de vragen.
