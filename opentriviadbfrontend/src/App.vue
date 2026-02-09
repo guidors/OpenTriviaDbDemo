@@ -196,8 +196,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .text-green-800 { color: #166534; }
 .text-red-800 { color: #991b1b; }
-.text-gray-600 { color: #1f2937; }
-.text-gray-800 { color: #111827; }
+.text-gray-600 { color: #000000; } /* black for now */
+.text-gray-800 { color: #000000; } /* black for now */
 .text-blue-600 { color: #2563eb; }
 .text-green-600 { color: #059669; }
 .text-yellow-600 { color: #d97706; }

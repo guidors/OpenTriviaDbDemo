@@ -177,6 +177,8 @@ namespace OpenTriviaDbWebService.Infrastructure
                     case 1: // No result, probably never returned
                     case 2: // Invalid Parameter, probably never returned
                     case 3: // Token Not Found 
+                        await RequestTokenAsync(false);
+                        return;
                     case 4: // Token Empty
                         await RequestTokenAsync(true);
                         return;

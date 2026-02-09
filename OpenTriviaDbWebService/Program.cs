@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using OpenTriviaDbWebService.Infrastructure;
 using OpenTriviaDbWebService.Models;
 using OpenTriviaDbWebService.Options;
