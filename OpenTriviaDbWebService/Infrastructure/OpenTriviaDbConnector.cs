@@ -174,7 +174,10 @@ namespace OpenTriviaDbWebService.Infrastructure
                         _token = response.Token;
                         logger.InformationApiResponseMessage(response.ResponseMessage);
                         return;
-                    case 4:
+                    case 1: // No result, probably never returned
+                    case 2: // Invalid Parameter, probably never returned
+                    case 3: // Token Not Found 
+                    case 4: // Token Empty
                         await RequestTokenAsync(true);
                         return;
                     case 5:
@@ -182,7 +185,7 @@ namespace OpenTriviaDbWebService.Infrastructure
                         await RequestTokenAsync(resetToken);
                         return;
 
-                    default:
+                    default: // Rate Limit
                         throw new OpenTriviaDbConnectorException($"Unexpected response code {response.ResponseCode} when requesting token from Open Trivia Database API.");
                 }
             }
